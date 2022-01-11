@@ -1,0 +1,7 @@
+{
+  "PORT": 4000,
+  "MONGO_DB": "KtiutiunDB",
+  "MONGO_HOST": "ktiutiundb.ds22x.mongodb.net",
+  "MONGO_USER": "ktiutiun",
+  "MONGO_PASSWORD": "ktiutiunpassword"
+}

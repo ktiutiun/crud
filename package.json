@@ -1,0 +1,30 @@
+{
+  "name": "ktiutiun",
+  "version": "1.0.0",
+  "description": "my first local server",
+  "main": "index.js",
+  "scripts": {
+    "start": "index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "ktiutiun",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ktiutiun/JS.git#master"
+  },
+  "bugs": {
+    "url": "https://github.com/ktiutiun/JS/issues"
+  },
+  "homepage": "https://github.com/ktiutiun/JS/tree/master#readme",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
