@@ -50,10 +50,18 @@ module.exports = {
 
         console.log(`PUT /users/:id with req { _id : ${userID} }, ${JSON.stringify(body)}`)
 
-        const existedUser = await Users.findById(userID);
+        const existedUserID = await Users.findById(userID);
 
-        if (!existedUser) {
+        if (!existedUserID) {
             return response.status(400).send(`There is no user with id ${ userID }`);
+        }
+
+        const { login } = body;
+
+        const existedUserLogin = await Users.findOne({ login });
+
+        if (existedUserLogin !== null) {
+            return response.status(400).send('User with the same login already exists');
         }
 
         await Users.updateOne({_id : userID}, body);
