@@ -14,8 +14,9 @@ module.exports = {
     },
 
     getUser : async function ( { params }, response ){
-        const userID = params.id;
+        const { userID } = params;
 
+        console.log(params.id, params._id, params);
         console.log(`GET /users/${userID}`);
 
         const user = await Users.findById(userID);
@@ -38,40 +39,42 @@ module.exports = {
             return response.status(400).send('User already exists');
         }
 
-        const newUser = await Users.create({ ...body, _id: randomUUID()})
+        const newUser = await Users.create({ ...body, _id: randomUUID()});
 
         return response.status(201).send(newUser);
     },
 
 
     putUser : async function ( { params, body }, response ) {
-        const { userID } = params;
+        const userID = params.id;
 
         console.log(`PUT /users/:id with req { _id : ${userID} }, ${JSON.stringify(body)}`)
 
-        const existedUser = await Users.findOne({ userID  });
+        const existedUser = await Users.findById(userID);
 
         if (!existedUser) {
             return response.status(400).send(`There is no user with id ${ userID }`);
         }
 
-        const newUser = await Users.updateOne(userID, body);
+        await Users.updateOne({_id : userID}, body);
+
+        const newUser = await Users.findById(userID);
 
         return response.status(201).send(newUser);
     },
 
     deleteUser : async function ( {params}, response) {
-        const id = params.id;
+        const userID = params.id;
 
-        console.log(`DELETE /users/:id with req ${JSON.stringify(params)}`)
+        console.log(`DELETE /users/:${ userID } with req ${ JSON.stringify(params) }`)
 
-        const existedUser = await Users.findById(id);
+        const existedUser = await Users.findById(userID);
 
-        if (existedUser !== null) {
-            return response.status(404).send();
+        if (!existedUser) {
+            return response.status(400).send(`There is no user with id ${ userID }`);
         }
 
-        await Users.findByIdAndDelete(id);
+        await Users.findByIdAndDelete(userID);
 
         return response.status(204).send();
     }
