@@ -14,9 +14,8 @@ module.exports = {
     },
 
     getUser : async function ( { params }, response ){
-        const { userID } = params;
+        const userID = params.id;
 
-        console.log(params.id, params._id, params);
         console.log(`GET /users/${userID}`);
 
         const user = await Users.findById(userID);
@@ -64,14 +63,12 @@ module.exports = {
             return response.status(400).send('User with the same login already exists');
         }
 
-        await Users.updateOne({_id : userID}, body);
-
-        const newUser = await Users.findById(userID);
+        const newUser = await Users.findOneAndUpdate({_id : userID}, body, {new: true});
 
         return response.status(201).send(newUser);
     },
 
-    deleteUser : async function ( {params}, response) {
+    deleteUser : async function ( { params }, response) {
         const userID = params.id;
 
         console.log(`DELETE /users/:${ userID } with req ${ JSON.stringify(params) }`)
